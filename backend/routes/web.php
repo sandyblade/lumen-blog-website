@@ -28,4 +28,20 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->post('account/token', 'AccountController@refresh');
     $router->get('account/activity', 'AccountController@activity');
     $router->post('account/logout', 'AccountController@logout');
+    # Notification Section
+    $router->get('notification/list', 'NotificationController@list');
+    $router->get('notification/read/{id}', 'NotificationController@read');
+    $router->delete('notification/remove/{id}', 'NotificationController@delete');
+    # Article Section
+    $router->get('article/list', 'ArticleController@list');
+    $router->post('article/create',  'ArticleController@create');
+    $router->get('article/read/{slug}', 'ArticleController@read');
+    $router->put('article/update/{id}','ArticleController@update');
+    $router->delete('article/remove/{id}', 'ArticleController@delete');
+    $router->get('article/user', 'ArticleController@user');
+    $router->get('article/words', 'ArticleController@words');
+    # Comment Section
+    $router->get('comment/list/{id}', 'CommentController@list');
+    $router->post('comment/create/{id}', 'CommentController@create');
+    $router->delete('comment/remove/{id}', 'CommentController@delete');
 });

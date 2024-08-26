@@ -48,4 +48,15 @@ class Article extends Model
         return $this->hasMany(Viewer::class);
     }
 
+    protected static function booted()
+    {
+        static::creating(function ($option) {
+            $option->column1 = "hahahaha...";
+        });
+
+        static::updating(function ($option) {
+            $option->column1 = "hahahaha...";
+        });
+    }
+
 }
