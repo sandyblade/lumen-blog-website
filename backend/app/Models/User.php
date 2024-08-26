@@ -48,6 +48,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         'country',
         'facebook',
         'instagram',
+        'job_title',
         'twitter',
         'linked_in',
         'address',

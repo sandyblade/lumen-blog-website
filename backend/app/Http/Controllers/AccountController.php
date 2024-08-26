@@ -93,6 +93,7 @@ class AccountController extends BaseController
         $user->last_name = $request->input('last_name');
         $user->gender = $request->input('gender');
         $user->country = $request->input('country');
+        $user->job_title = $request->input('job_title');
         $user->facebook = $request->input('facebook');
         $user->instagram = $request->input('instagram');
         $user->twitter = $request->input('twitter');

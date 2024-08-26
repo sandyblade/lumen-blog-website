@@ -34,6 +34,7 @@ return new class extends Migration
             $table->string('country', 180)->nullable()->index();
             $table->string('facebook', 180)->nullable()->index();
             $table->string('instagram', 180)->nullable()->index();
+            $table->string('job_title', 180)->nullable()->index();
             $table->string('twitter', 180)->nullable()->index();
             $table->string('linked_in', 180)->nullable()->index();
             $table->text('address')->nullable();
