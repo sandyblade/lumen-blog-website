@@ -21,6 +21,7 @@ use Faker\Factory as Faker;
 use App\Models\Activity;
 use App\Models\Article;
 use App\Models\Viewer;
+use App\Models\Notification;
 
 class ArticleController extends BaseController
 {
@@ -112,11 +113,28 @@ class ArticleController extends BaseController
         $user = Auth::User();
         if($user)
         {
-            $viewer = Viewer::where("user_id", $user->id)->where("article_id", $article->id)->first();
 
-            if(null === $viewer)
+            if($user->id != $article->user_id)
             {
-                Viewer::create(["user_id"=> $user->id, "article_id"=> $article->id]);
+                $viewer = Viewer::where("user_id", $user->id)->where("article_id", $article->id)->first();
+
+                if(null === $viewer)
+                {
+                    Viewer::create(["user_id"=> $user->id, "article_id"=> $article->id]);
+
+                    Notification::create([
+                        'user_id'=> $article->user_id,
+                        'subject'=> "Read Article",
+                        'message'=> "The user ".$user->email." view to your article with title `".$article->title."`.",
+                        'status'=> 0
+                    ]);
+
+                    $total_viewer = Viewer::where("article_id", $article->id)->count();
+                    $article->total_viewer = $total_viewer;
+                    $article->save();
+
+                }
+
             }
 
         }

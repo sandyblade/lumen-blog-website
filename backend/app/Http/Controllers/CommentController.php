@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Article;
 use App\Models\Activity;
 use App\Models\Comment;
+use App\Models\Notification;
 
 class CommentController extends BaseController
 {
@@ -66,6 +67,34 @@ class CommentController extends BaseController
             "event"=> "Create Comment Article",
             "description"=> "Comment of article ".$article->title." as been created"
         ]);
+
+        if($article->user_id != $user->id)
+        {
+            if($request->input("parent_id"))
+            {
+                Notification::create([
+                    'user_id'=> $article->user_id,
+                    'subject'=> "Reply Comment",
+                    'message'=> "The user ".$user->email." reply comment to your article with title `".$article->title."`.",
+                    'status'=> 0
+                ]);
+            }
+            else
+            {
+                Notification::create([
+                    'user_id'=> $article->user_id,
+                    'subject'=> "Add Comment",
+                    'message'=> "The user ".$user->email." add comment to your article with title `".$article->title."`.",
+                    'status'=> 0
+                ]);
+            }
+
+        }
+
+
+        $total_comment = Comment::where("article_id", $article->id)->count();
+        $article->total_comment = $total_comment;
+        $article->save();
 
         return response()->json(["message"=> "ok", "data"=> $comment]);
     }
